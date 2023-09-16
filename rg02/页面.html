@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>题目筛选</title>
+    <style>
+        .problem {
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>题目筛选</h1>
+
+    <form id="filterForm">
+        <label>
+            难度：
+            <select id="difficultySelect">
+                <option value="">所有</option>
+                <option value="暂无评定">暂无评定</option>
+                <option value="入门">入门</option>
+                <!-- 添加其他难度选项 -->
+            </select>
+        </label>
+        <label>
+            算法：
+            <input type="text" id="algorithmInput">
+        </label>
+        <label>
+            关键词：
+            <input type="text" id="keywordInput">
+        </label>
+        <button type="submit">筛选</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        // 假设我们有一个题目列表
+        var problems = [
+            { id: 'P1', title: '题目1', difficulty: '入门', algorithm: '算法1', keywords: ['关键词1', '关键词2'] },
+            // 添加其他题目
+        ];
+
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var difficulty = document.getElementById('difficultySelect').value;
+            var algorithm = document.getElementById('algorithmInput').value;
+            var keyword = document.getElementById('keywordInput').value;
+
+            var filteredProblems = problems.filter(function(problem) {
+                return (difficulty === '' || problem.difficulty === difficulty) &&
+                    (algorithm === '' || problem.algorithm === algorithm) &&
+                    (keyword === '' || problem.keywords.includes(keyword));
+            });
+
+            var resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            filteredProblems.forEach(function(problem) {
+                var div = document.createElement('div');
+                div.className = 'problem';
+                div.textContent = problem.id + ': ' + problem.title + ' (' + problem.difficulty + ', ' + problem.algorithm + ')';
+                resultsDiv.appendChild(div);
+            });
+        });
+    </script>
+</body>
+</html>
